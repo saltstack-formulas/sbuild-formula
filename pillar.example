@@ -1,0 +1,39 @@
+debootstrap:
+  # Since the formula builds on top debootstrap-formula, you might
+  # want to customize some of its pillar data too... see documentation
+  # of debootstrap-formula
+  basedir: /srv/chroots
+  vendor:
+    repositories:
+      default: http://ftp.fr.debian.org/debian
+
+sbuild:
+  basedir: /srv/chroots
+  schroot.conf:  # Default config for all schroots (will be updated with
+                 # per-chroot setting)
+    users: rhertzog
+    root-users: rhertzog
+  # List of chroots to setup with debootstrap for use with sbuild (see
+  # README.rst for details)
+  chroots:
+    sid:
+      vendor: debian
+      architectures:
+        - i386
+	- amd64
+      extra_dists:
+        - experimental
+      with_source: True
+    jessie:
+      vendor: debian
+      architectures:
+        - i386
+	- amd64
+    # Example where dist is not inferred from the chroot name
+    jessie-backports:
+      vendor: debian
+      dist: jessie
+      extra_dists:
+        - jessie-backports
+      dist_aliases: False  # Don't generate aliases that would conflict
+                           # with the main jessie chroot
