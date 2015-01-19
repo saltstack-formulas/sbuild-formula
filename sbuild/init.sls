@@ -20,3 +20,13 @@ include:
 
 {{ schroot_state_loop(root_key='sbuild', default_data=default_data,
                       default_conf=default_conf, sls_require='sbuild.prereq') }}
+
+# Ensure the sbuild key is setup
+sbuild_apt_key:
+  cmd.run:
+    - name: sbuild-update --keygen
+    - unless: test -e /var/lib/sbuild/apt-keys/sbuild-key.pub
+    - user: root
+    - group: root
+    - require:
+      - sls: sbuild.prereq
