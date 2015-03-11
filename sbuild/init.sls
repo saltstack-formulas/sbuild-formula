@@ -30,3 +30,11 @@ sbuild_apt_key:
     - group: root
     - require:
       - sls: sbuild.prereq
+      - file: root_has_gnupg_directory
+
+root_has_gnupg_directory:
+  file.directory:
+    - name: /root/.gnupg
+    - user: root
+    - group: root
+    - mode: 755
