@@ -1,8 +1,9 @@
 include:
   - sbuild.prereq
 
-{% from 'schroot/state.jinja' import schroot_state_loop %}
+{% from 'schroot/state.jinja' import schroot_state_loop, schroot_guess_overlay_fs %}
 
+{% set overlay_fs = '{0}'.format(schroot_guess_overlay_fs()) %}
 {% set default_data = {
     'schroot_name_format': '{name}-{arch}-sbuild',
     'dist_aliases': True,
@@ -11,7 +12,7 @@ include:
     'debootstrap_options': '--variant=buildd',
 } %}
 {% set default_conf = {
-    'union-type': 'aufs',
+    'union-type': overlay_fs,
     'profile': 'sbuild',
     'groups': 'root,sbuild',
     'root-groups': 'root,sbuild',
