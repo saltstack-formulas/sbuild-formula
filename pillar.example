@@ -4,8 +4,9 @@ debootstrap:
   # of debootstrap-formula
   basedir: /srv/chroots
   vendor:
-    repositories:
-      default: http://ftp.fr.debian.org/debian
+    debian:
+      repositories:
+        default: http://ftp.fr.debian.org/debian
 
 sbuild:
   basedir: /srv/chroots
