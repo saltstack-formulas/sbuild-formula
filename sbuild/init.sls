@@ -22,6 +22,17 @@ include:
 {{ schroot_state_loop(root_key='sbuild', default_data=default_data,
                       default_conf=default_conf, sls_require='sbuild.prereq') }}
 
+# Ensure the sbuild users are added to the sbuild group
+{% set sbuild_users = salt.pillar.get('sbuild:users') %}
+{% if sbuild_users %}
+sbuild_users_in_sbuild_group:
+  group.present:
+    - name: sbuild
+    - members: {{ salt.pillar.get('sbuild:users', [])|yaml }}
+    - require:
+      - sls: sbuild.prereq
+{% endif %}
+
 # Ensure the sbuild key is setup
 sbuild_apt_key:
   cmd.run:

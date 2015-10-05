@@ -10,10 +10,12 @@ debootstrap:
 
 sbuild:
   basedir: /srv/chroots
-  schroot.conf:  # Default config for all schroots (will be updated with
-                 # per-chroot setting)
-    users: rhertzog
-    root-users: rhertzog
+  # List of sbuild users to add to the sbuild group
+  users:
+    - rhertzog
+  # Default config for all schroots (will be updated with per-chroot setting)
+  schroot.conf:
+    message-verbosity: quiet
   # List of chroots to setup with debootstrap for use with sbuild (see
   # README.rst for details)
   chroots:
