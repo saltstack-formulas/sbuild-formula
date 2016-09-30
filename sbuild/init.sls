@@ -33,20 +33,7 @@ sbuild_users_in_sbuild_group:
       - sls: sbuild.prereq
 {% endif %}
 
-# Ensure the sbuild key is setup
-sbuild_apt_key:
-  cmd.run:
-    - name: sbuild-update --keygen
-    - unless: test -e /var/lib/sbuild/apt-keys/sbuild-key.pub
-    - user: root
-    - group: root
-    - require:
-      - sls: sbuild.prereq
-      - file: root_has_gnupg_directory
-
-root_has_gnupg_directory:
-  file.directory:
-    - name: /root/.gnupg
-    - user: root
-    - group: root
-    - mode: 755
+# Ensure the sbuild key is droppped, that way sbuild does not try
+# to use gpg and relies on APT's configuration to trust the repository
+/var/lib/sbuild/apt-keys:
+  file.absent
